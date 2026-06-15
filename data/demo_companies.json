@@ -1,0 +1,313 @@
+{
+  "AAPL": {
+    "ticker": "AAPL",
+    "aliases": ["APPLE", "APPLE INC", "IPHONE"],
+    "company_name": "Apple Inc.",
+    "exchange": "NASDAQ",
+    "sector": "Technology",
+    "industry": "Consumer Electronics",
+    "currency": "USD",
+    "description": "Apple designs, manufactures, and markets smartphones, personal computers, tablets, wearables, accessories, and services. Its ecosystem combines hardware, software, services, and a large installed base.",
+    "metrics": {
+      "price": 196.45,
+      "previous_close": 193.12,
+      "market_cap": 3000000000000,
+      "enterprise_value": 3060000000000,
+      "revenue_ttm": 391040000000,
+      "net_income_ttm": 93740000000,
+      "free_cash_flow_ttm": 104300000000,
+      "gross_margin": 0.462,
+      "operating_margin": 0.307,
+      "revenue_growth": 0.021,
+      "profit_growth": -0.012,
+      "pe_ratio": 32.1,
+      "ps_ratio": 7.7,
+      "ev_ebitda": 24.5,
+      "debt_to_equity": 1.45,
+      "current_ratio": 0.95,
+      "beta": 1.18,
+      "fifty_two_week_high": 237.23,
+      "fifty_two_week_low": 164.08
+    },
+    "price_history": [
+      {"date": "2025-07-01", "close": 187.6},
+      {"date": "2025-08-01", "close": 195.4},
+      {"date": "2025-09-01", "close": 201.2},
+      {"date": "2025-10-01", "close": 210.9},
+      {"date": "2025-11-01", "close": 228.5},
+      {"date": "2025-12-01", "close": 220.7},
+      {"date": "2026-01-01", "close": 214.2},
+      {"date": "2026-02-01", "close": 198.8},
+      {"date": "2026-03-01", "close": 181.5},
+      {"date": "2026-04-01", "close": 188.9},
+      {"date": "2026-05-01", "close": 193.1},
+      {"date": "2026-06-01", "close": 196.45}
+    ],
+    "financial_trends": [
+      {"period": "FY2021", "revenue": 365817000000, "net_income": 94680000000},
+      {"period": "FY2022", "revenue": 394328000000, "net_income": 99803000000},
+      {"period": "FY2023", "revenue": 383285000000, "net_income": 96995000000},
+      {"period": "FY2024", "revenue": 391040000000, "net_income": 93736000000}
+    ],
+    "peers": [
+      {"ticker": "MSFT", "company_name": "Microsoft Corporation", "pe_ratio": 35.4, "ps_ratio": 12.1, "ev_ebitda": 25.9},
+      {"ticker": "GOOGL", "company_name": "Alphabet Inc.", "pe_ratio": 27.2, "ps_ratio": 6.4, "ev_ebitda": 18.7},
+      {"ticker": "Samsung", "company_name": "Samsung Electronics", "pe_ratio": 18.9, "ps_ratio": 1.6, "ev_ebitda": 8.9}
+    ],
+    "news": [
+      {"title": "Apple expands on-device AI features across the ecosystem", "source": "CapitalLens Demo News", "date": "2026-06-10", "summary": "Apple highlighted new privacy-focused AI features designed to deepen ecosystem retention and increase upgrade intent.", "impact": "positive", "url": "demo://news/aapl-ai"},
+      {"title": "Regulators continue scrutiny of App Store policies", "source": "CapitalLens Demo News", "date": "2026-06-05", "summary": "US and European regulators are continuing to review platform fees, steering rules, and developer access.", "impact": "negative", "url": "demo://news/aapl-regulatory"},
+      {"title": "Services growth offsets softer hardware cycle", "source": "CapitalLens Demo News", "date": "2026-05-29", "summary": "Services revenue remains a key stabilizer as smartphone replacement cycles stay mixed.", "impact": "neutral", "url": "demo://news/aapl-services"}
+    ],
+    "filing_file": "apple_10k_excerpt.txt"
+  },
+  "MSFT": {
+    "ticker": "MSFT",
+    "aliases": ["MICROSOFT", "MICROSOFT CORPORATION"],
+    "company_name": "Microsoft Corporation",
+    "exchange": "NASDAQ",
+    "sector": "Technology",
+    "industry": "Software - Infrastructure",
+    "currency": "USD",
+    "description": "Microsoft develops cloud platforms, productivity software, operating systems, business applications, gaming products, and AI infrastructure used by enterprises and consumers globally.",
+    "metrics": {
+      "price": 476.22,
+      "previous_close": 469.84,
+      "market_cap": 3540000000000,
+      "enterprise_value": 3500000000000,
+      "revenue_ttm": 254190000000,
+      "net_income_ttm": 88140000000,
+      "free_cash_flow_ttm": 74080000000,
+      "gross_margin": 0.688,
+      "operating_margin": 0.445,
+      "revenue_growth": 0.16,
+      "profit_growth": 0.21,
+      "pe_ratio": 36.4,
+      "ps_ratio": 13.9,
+      "ev_ebitda": 26.8,
+      "debt_to_equity": 0.31,
+      "current_ratio": 1.27,
+      "beta": 0.92,
+      "fifty_two_week_high": 480.0,
+      "fifty_two_week_low": 350.5
+    },
+    "price_history": [
+      {"date": "2025-07-01", "close": 410.2},
+      {"date": "2025-08-01", "close": 417.9},
+      {"date": "2025-09-01", "close": 425.3},
+      {"date": "2025-10-01", "close": 439.7},
+      {"date": "2025-11-01", "close": 452.6},
+      {"date": "2025-12-01", "close": 461.1},
+      {"date": "2026-01-01", "close": 468.5},
+      {"date": "2026-02-01", "close": 443.4},
+      {"date": "2026-03-01", "close": 459.6},
+      {"date": "2026-04-01", "close": 467.8},
+      {"date": "2026-05-01", "close": 469.84},
+      {"date": "2026-06-01", "close": 476.22}
+    ],
+    "financial_trends": [
+      {"period": "FY2021", "revenue": 168088000000, "net_income": 61271000000},
+      {"period": "FY2022", "revenue": 198270000000, "net_income": 72738000000},
+      {"period": "FY2023", "revenue": 211915000000, "net_income": 72361000000},
+      {"period": "FY2024", "revenue": 245122000000, "net_income": 88136000000}
+    ],
+    "peers": [
+      {"ticker": "AAPL", "company_name": "Apple Inc.", "pe_ratio": 32.1, "ps_ratio": 7.7, "ev_ebitda": 24.5},
+      {"ticker": "GOOGL", "company_name": "Alphabet Inc.", "pe_ratio": 27.2, "ps_ratio": 6.4, "ev_ebitda": 18.7},
+      {"ticker": "ORCL", "company_name": "Oracle Corporation", "pe_ratio": 31.5, "ps_ratio": 8.2, "ev_ebitda": 19.3}
+    ],
+    "news": [
+      {"title": "Azure AI demand drives another strong cloud quarter", "source": "CapitalLens Demo News", "date": "2026-06-09", "summary": "Enterprise demand for Azure AI services and Copilot subscriptions supported above-market cloud growth.", "impact": "positive", "url": "demo://news/msft-azure"},
+      {"title": "AI infrastructure spending remains elevated", "source": "CapitalLens Demo News", "date": "2026-06-04", "summary": "Management signaled continued heavy capital investment for data centers, GPUs, and AI capacity.", "impact": "neutral", "url": "demo://news/msft-capex"},
+      {"title": "Antitrust review continues around bundled productivity tools", "source": "CapitalLens Demo News", "date": "2026-05-28", "summary": "Regulators are reviewing software bundling practices in cloud and productivity markets.", "impact": "negative", "url": "demo://news/msft-antitrust"}
+    ],
+    "filing_file": "microsoft_10k_excerpt.txt"
+  },
+  "TSLA": {
+    "ticker": "TSLA",
+    "aliases": ["TESLA", "TESLA INC"],
+    "company_name": "Tesla, Inc.",
+    "exchange": "NASDAQ",
+    "sector": "Consumer Cyclical",
+    "industry": "Auto Manufacturers",
+    "currency": "USD",
+    "description": "Tesla designs and manufactures electric vehicles, energy storage systems, solar products, software-enabled services, charging infrastructure, and autonomy-related technologies.",
+    "metrics": {
+      "price": 182.31,
+      "previous_close": 193.1,
+      "market_cap": 582000000000,
+      "enterprise_value": 560000000000,
+      "revenue_ttm": 96400000000,
+      "net_income_ttm": 8230000000,
+      "free_cash_flow_ttm": 2450000000,
+      "gross_margin": 0.183,
+      "operating_margin": 0.086,
+      "revenue_growth": 0.024,
+      "profit_growth": -0.31,
+      "pe_ratio": 69.8,
+      "ps_ratio": 6.0,
+      "ev_ebitda": 40.1,
+      "debt_to_equity": 0.12,
+      "current_ratio": 1.73,
+      "beta": 2.05,
+      "fifty_two_week_high": 299.29,
+      "fifty_two_week_low": 138.8
+    },
+    "price_history": [
+      {"date": "2025-07-01", "close": 246.2},
+      {"date": "2025-08-01", "close": 231.4},
+      {"date": "2025-09-01", "close": 244.9},
+      {"date": "2025-10-01", "close": 256.6},
+      {"date": "2025-11-01", "close": 235.3},
+      {"date": "2025-12-01", "close": 221.7},
+      {"date": "2026-01-01", "close": 207.6},
+      {"date": "2026-02-01", "close": 195.9},
+      {"date": "2026-03-01", "close": 173.2},
+      {"date": "2026-04-01", "close": 188.6},
+      {"date": "2026-05-01", "close": 193.1},
+      {"date": "2026-06-01", "close": 182.31}
+    ],
+    "financial_trends": [
+      {"period": "FY2021", "revenue": 53823000000, "net_income": 5519000000},
+      {"period": "FY2022", "revenue": 81462000000, "net_income": 12587000000},
+      {"period": "FY2023", "revenue": 96773000000, "net_income": 14997000000},
+      {"period": "FY2024", "revenue": 96400000000, "net_income": 8230000000}
+    ],
+    "peers": [
+      {"ticker": "TM", "company_name": "Toyota Motor Corporation", "pe_ratio": 10.8, "ps_ratio": 0.9, "ev_ebitda": 8.1},
+      {"ticker": "F", "company_name": "Ford Motor Company", "pe_ratio": 7.4, "ps_ratio": 0.3, "ev_ebitda": 9.2},
+      {"ticker": "BYD", "company_name": "BYD Company", "pe_ratio": 24.2, "ps_ratio": 1.4, "ev_ebitda": 13.5}
+    ],
+    "news": [
+      {"title": "Tesla deliveries face pricing pressure in key regions", "source": "CapitalLens Demo News", "date": "2026-06-11", "summary": "Competitive electric vehicle pricing and incentives are pressuring vehicle margins across several markets.", "impact": "negative", "url": "demo://news/tsla-pricing"},
+      {"title": "Energy storage deployments remain a bright spot", "source": "CapitalLens Demo News", "date": "2026-06-02", "summary": "Utility-scale battery deployments continued to grow, helping diversify revenue beyond autos.", "impact": "positive", "url": "demo://news/tsla-energy"},
+      {"title": "Autonomy roadmap still carries execution uncertainty", "source": "CapitalLens Demo News", "date": "2026-05-25", "summary": "Investors continue to debate the timing and regulatory path for autonomy commercialization.", "impact": "neutral", "url": "demo://news/tsla-autonomy"}
+    ],
+    "filing_file": "tesla_10k_excerpt.txt"
+  },
+  "RELIANCE.NS": {
+    "ticker": "RELIANCE.NS",
+    "aliases": ["RELIANCE", "RELIANCE INDUSTRIES"],
+    "company_name": "Reliance Industries Limited",
+    "exchange": "NSE",
+    "sector": "Energy",
+    "industry": "Oil & Gas Refining and Marketing",
+    "currency": "INR",
+    "description": "Reliance Industries operates across oil-to-chemicals, retail, telecom and digital services, media, and new energy initiatives. It is one of India's largest diversified conglomerates.",
+    "metrics": {
+      "price": 2895.5,
+      "previous_close": 2862.0,
+      "market_cap": 19580000000000,
+      "enterprise_value": 22300000000000,
+      "revenue_ttm": 9890000000000,
+      "net_income_ttm": 790200000000,
+      "free_cash_flow_ttm": 186000000000,
+      "gross_margin": 0.344,
+      "operating_margin": 0.122,
+      "revenue_growth": 0.047,
+      "profit_growth": 0.082,
+      "pe_ratio": 25.1,
+      "ps_ratio": 2.0,
+      "ev_ebitda": 12.4,
+      "debt_to_equity": 0.42,
+      "current_ratio": 1.08,
+      "beta": 0.86,
+      "fifty_two_week_high": 3217.6,
+      "fifty_two_week_low": 2220.3
+    },
+    "price_history": [
+      {"date": "2025-07-01", "close": 2630.0},
+      {"date": "2025-08-01", "close": 2712.5},
+      {"date": "2025-09-01", "close": 2790.0},
+      {"date": "2025-10-01", "close": 2924.5},
+      {"date": "2025-11-01", "close": 3010.2},
+      {"date": "2025-12-01", "close": 2948.7},
+      {"date": "2026-01-01", "close": 2875.3},
+      {"date": "2026-02-01", "close": 2768.4},
+      {"date": "2026-03-01", "close": 2810.8},
+      {"date": "2026-04-01", "close": 2854.6},
+      {"date": "2026-05-01", "close": 2862.0},
+      {"date": "2026-06-01", "close": 2895.5}
+    ],
+    "financial_trends": [
+      {"period": "FY2021", "revenue": 5390000000000, "net_income": 491000000000},
+      {"period": "FY2022", "revenue": 7216000000000, "net_income": 607000000000},
+      {"period": "FY2023", "revenue": 8770000000000, "net_income": 667000000000},
+      {"period": "FY2024", "revenue": 9170000000000, "net_income": 696000000000}
+    ],
+    "peers": [
+      {"ticker": "IOC.NS", "company_name": "Indian Oil Corporation", "pe_ratio": 7.2, "ps_ratio": 0.2, "ev_ebitda": 5.4},
+      {"ticker": "BHARTIARTL.NS", "company_name": "Bharti Airtel", "pe_ratio": 47.0, "ps_ratio": 7.1, "ev_ebitda": 14.0},
+      {"ticker": "DMART.NS", "company_name": "Avenue Supermarts", "pe_ratio": 91.0, "ps_ratio": 8.8, "ev_ebitda": 46.0}
+    ],
+    "news": [
+      {"title": "Reliance expands new energy manufacturing roadmap", "source": "CapitalLens Demo News", "date": "2026-06-08", "summary": "The company continued investment in batteries, solar, and green hydrogen supply chains.", "impact": "positive", "url": "demo://news/reliance-energy"},
+      {"title": "Retail and digital businesses support diversification", "source": "CapitalLens Demo News", "date": "2026-06-01", "summary": "Consumer businesses remain important growth engines as oil-to-chemicals cycles fluctuate.", "impact": "positive", "url": "demo://news/reliance-consumer"},
+      {"title": "Refining margins remain cyclical", "source": "CapitalLens Demo News", "date": "2026-05-26", "summary": "Energy spreads and commodity prices continue to influence near-term earnings variability.", "impact": "neutral", "url": "demo://news/reliance-refining"}
+    ],
+    "filing_file": "reliance_annual_excerpt.txt"
+  },
+  "TCS.NS": {
+    "ticker": "TCS.NS",
+    "aliases": ["TCS", "TATA CONSULTANCY SERVICES"],
+    "company_name": "Tata Consultancy Services Limited",
+    "exchange": "NSE",
+    "sector": "Technology",
+    "industry": "Information Technology Services",
+    "currency": "INR",
+    "description": "TCS provides IT services, consulting, business solutions, cloud migration, enterprise software support, cybersecurity, and digital transformation services for global clients.",
+    "metrics": {
+      "price": 3825.4,
+      "previous_close": 3770.0,
+      "market_cap": 13850000000000,
+      "enterprise_value": 13670000000000,
+      "revenue_ttm": 2453000000000,
+      "net_income_ttm": 460800000000,
+      "free_cash_flow_ttm": 417000000000,
+      "gross_margin": 0.421,
+      "operating_margin": 0.245,
+      "revenue_growth": 0.061,
+      "profit_growth": 0.087,
+      "pe_ratio": 30.4,
+      "ps_ratio": 5.6,
+      "ev_ebitda": 20.8,
+      "debt_to_equity": 0.08,
+      "current_ratio": 2.02,
+      "beta": 0.71,
+      "fifty_two_week_high": 4592.0,
+      "fifty_two_week_low": 3311.0
+    },
+    "price_history": [
+      {"date": "2025-07-01", "close": 3460.0},
+      {"date": "2025-08-01", "close": 3545.2},
+      {"date": "2025-09-01", "close": 3601.8},
+      {"date": "2025-10-01", "close": 3725.4},
+      {"date": "2025-11-01", "close": 3898.2},
+      {"date": "2025-12-01", "close": 4012.5},
+      {"date": "2026-01-01", "close": 3950.6},
+      {"date": "2026-02-01", "close": 3722.7},
+      {"date": "2026-03-01", "close": 3664.8},
+      {"date": "2026-04-01", "close": 3710.1},
+      {"date": "2026-05-01", "close": 3770.0},
+      {"date": "2026-06-01", "close": 3825.4}
+    ],
+    "financial_trends": [
+      {"period": "FY2021", "revenue": 1642000000000, "net_income": 324300000000},
+      {"period": "FY2022", "revenue": 1918000000000, "net_income": 383270000000},
+      {"period": "FY2023", "revenue": 2255000000000, "net_income": 421470000000},
+      {"period": "FY2024", "revenue": 2409000000000, "net_income": 459080000000}
+    ],
+    "peers": [
+      {"ticker": "INFY.NS", "company_name": "Infosys Limited", "pe_ratio": 26.2, "ps_ratio": 4.9, "ev_ebitda": 17.3},
+      {"ticker": "WIPRO.NS", "company_name": "Wipro Limited", "pe_ratio": 23.7, "ps_ratio": 3.2, "ev_ebitda": 13.5},
+      {"ticker": "HCLTECH.NS", "company_name": "HCL Technologies", "pe_ratio": 25.8, "ps_ratio": 3.8, "ev_ebitda": 15.1}
+    ],
+    "news": [
+      {"title": "TCS reports stable order book despite cautious IT budgets", "source": "CapitalLens Demo News", "date": "2026-06-07", "summary": "Large transformation deals continued, but discretionary technology spending remained selective.", "impact": "neutral", "url": "demo://news/tcs-orders"},
+      {"title": "Margins supported by utilization and offshore delivery mix", "source": "CapitalLens Demo News", "date": "2026-06-03", "summary": "Operating discipline and delivery mix helped protect margins in a slower growth environment.", "impact": "positive", "url": "demo://news/tcs-margins"},
+      {"title": "Currency and client concentration remain watch items", "source": "CapitalLens Demo News", "date": "2026-05-27", "summary": "Exchange-rate volatility and exposure to large enterprise clients can affect near-term results.", "impact": "negative", "url": "demo://news/tcs-currency"}
+    ],
+    "filing_file": "tcs_annual_excerpt.txt"
+  }
+}
+

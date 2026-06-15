@@ -1,0 +1,8 @@
+Microsoft generates revenue from productivity and business processes, intelligent cloud, and more personal computing. Commercial cloud offerings include Azure, Microsoft 365, Dynamics, security products, and LinkedIn enterprise services.
+
+The company has increased investment in artificial intelligence infrastructure, including data centers, GPUs, networking, and software platforms. These investments can strengthen competitive position but may pressure free cash flow if demand develops slower than planned.
+
+Microsoft competes with large technology companies in cloud infrastructure, productivity applications, enterprise software, search, gaming, and devices. Pricing, product quality, developer ecosystem, and regulatory compliance are key competitive factors.
+
+Regulatory risk includes antitrust, privacy, cybersecurity, data sovereignty, and responsible AI obligations. The company may face restrictions on bundling, acquisitions, cloud market practices, and handling of customer data.
+
