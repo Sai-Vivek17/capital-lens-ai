@@ -5,6 +5,7 @@ from __future__ import annotations
 import re
 
 from app.schemas.models import ReportOutput, ResearchBundle
+from app.tools.citation_audit import audit_rag_diagnostics, missing_citations
 
 
 class CriticAgent:
@@ -23,11 +24,19 @@ class CriticAgent:
             markdown = self.DIRECT_ADVICE_RE.sub("review", markdown)
             notes.append("Replaced direct trading language with research-oriented wording.")
 
-        citation_ids = {citation.id for citation in report.citations}
-        referenced_ids = set(re.findall(r"\[([A-Za-z0-9_.\-]+)\]", markdown))
-        missing = sorted(ref_id for ref_id in referenced_ids if ref_id not in citation_ids and not ref_id.startswith("market-data"))
+        missing = missing_citations(markdown, report.citations)
         if missing:
             notes.append(f"Found citation placeholders not present in source list: {', '.join(missing[:5])}.")
+
+        rag_notes = audit_rag_diagnostics(bundle.filing_rag.diagnostics)
+        notes.extend(rag_notes)
+        if rag_notes and "## 9. Agent Conclusion" in markdown:
+            source_note = (
+                "\n\n**Source fidelity note:** "
+                + " ".join(rag_notes)
+                + "\n"
+            )
+            markdown = markdown.replace("## 9. Agent Conclusion", source_note + "\n## 9. Agent Conclusion")
 
         if "Disclaimer" not in markdown:
             markdown += "\n\n## Disclaimer\nCapitalLens AI is for research and educational purposes only and is not investment advice.\n"

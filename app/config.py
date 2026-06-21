@@ -11,6 +11,7 @@ ROOT_DIR = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT_DIR / "data"
 REPORTS_DIR = ROOT_DIR / "reports"
 DB_PATH = ROOT_DIR / "capital_lens_watchlist.db"
+RAG_INDEX_PATH = ROOT_DIR / "data" / "rag_index.sqlite"
 
 
 @dataclass(frozen=True)
@@ -25,6 +26,9 @@ class Settings:
     sec_user_agent: str = "CapitalLensAI/1.0 contact@example.com"
     cache_ttl_seconds: int = 900
     database_path: Path = DB_PATH
+    rag_index_path: Path = RAG_INDEX_PATH
+    rag_embedding_dimensions: int = 384
+    agent_max_retries: int = 2
 
 
 def _env_bool(name: str, default: bool) -> bool:
@@ -47,5 +51,7 @@ def get_settings() -> Settings:
         sec_user_agent=os.getenv("SEC_USER_AGENT", "CapitalLensAI/1.0 contact@example.com"),
         cache_ttl_seconds=int(os.getenv("CACHE_TTL_SECONDS", "900")),
         database_path=Path(os.getenv("CAPITALLENS_DB_PATH", str(DB_PATH))),
+        rag_index_path=Path(os.getenv("CAPITALLENS_RAG_INDEX_PATH", str(RAG_INDEX_PATH))),
+        rag_embedding_dimensions=int(os.getenv("CAPITALLENS_RAG_DIMS", "384")),
+        agent_max_retries=int(os.getenv("CAPITALLENS_AGENT_MAX_RETRIES", "2")),
     )
-

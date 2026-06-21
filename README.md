@@ -38,8 +38,10 @@ The final output includes:
 ## Core Features
 
 - **Autonomous research planning:** PlannerAgent creates a task plan for each run.
-- **Multi-agent architecture:** Dedicated agents for market data, news, filing RAG, risk, valuation, reporting, and critique.
+- **Durable multi-agent architecture:** Dedicated agents for market data, news, filing RAG, risk, valuation, reporting, and critique, executed through a retry-aware run engine.
+- **Advanced local RAG:** Persistent SQLite chunk index, deterministic local embeddings, BM25-style lexical scoring, vector similarity, reranking, and retrieval diagnostics.
 - **RAG with citations:** FilingRAGAgent retrieves evidence from sample filings and best-effort SEC/EDGAR filings for supported US companies.
+- **Source fidelity checks:** Citation coverage, unsupported-topic detection, retrieval scores, and critic notes are surfaced in the memo and UI.
 - **Demo mode:** Works without API keys using deterministic sample data for Apple, Microsoft, Tesla, Reliance Industries, and TCS.
 - **Live-data ready:** Optional adapters for yfinance, NewsAPI-style providers, SEC/EDGAR, and OpenAI-compatible LLM memo polish.
 - **Structured outputs:** Pydantic models keep every agent output typed and predictable.
@@ -47,7 +49,19 @@ The final output includes:
 - **Professional UI:** Streamlit dashboard with sidebar controls, progress timeline, tabs, charts, score cards, and downloads.
 - **Watchlist monitor:** SQLite-backed watchlist that flags price moves, negative news, volatility, weak trends, and risk-score changes.
 - **Export workflow:** Download generated reports as Markdown or PDF.
-- **Test coverage:** Unit tests for ticker validation, demo fallback, metric extraction, risk scoring, and report generation.
+- **Test coverage:** Unit tests for ticker validation, demo fallback, metric extraction, hybrid RAG retrieval, durable event logging, risk scoring, and report generation.
+
+## Phase 2 Production Hardening
+
+This version includes a Phase 2 hardening layer focused on agent reliability and advanced RAG behavior:
+
+- **Durable agent runs:** Every research run gets a `run_id`, persisted agent events, status transitions, and retry attempts.
+- **Retry-safe execution:** Agent steps run through `DurableAgentExecutor`, with configurable retry count via `CAPITALLENS_AGENT_MAX_RETRIES`.
+- **Persistent RAG index:** Filing chunks, metadata, token payloads, and deterministic embeddings are stored in `CAPITALLENS_RAG_INDEX_PATH`.
+- **Hybrid retrieval:** Retrieval combines BM25-like lexical relevance, local vector similarity, and reranking overlap.
+- **Retrieval diagnostics:** Each run reports indexed documents, indexed chunks, citation coverage, average top score, and evidence coverage.
+- **Citation audit:** The critic checks missing citations, weak retrieval coverage, and unsupported retrieval topics before finalizing the memo.
+- **Observable API:** Run events can be inspected through `GET /runs/{run_id}/events`.
 
 ## Agent Architecture
 
@@ -58,6 +72,7 @@ flowchart TD
     API["FastAPI API"] --> Orchestrator
 
     Orchestrator --> Planner["PlannerAgent"]
+    Orchestrator --> Durable["DurableAgentExecutor"]
     Planner --> Market["MarketDataAgent"]
     Planner --> News["NewsAgent"]
     Planner --> Filing["FilingRAGAgent"]
@@ -70,17 +85,28 @@ flowchart TD
     Market --> DemoData["Demo financial data"]
     News --> NewsAPI["Optional news provider"]
     News --> DemoNews["Demo news events"]
+    Durable --> Market
+    Durable --> News
+    Durable --> Filing
+    Durable --> Risk
+    Durable --> Valuation
+    Durable --> Report
+    Durable --> Critic
+
     Filing --> SEC["Best-effort SEC/EDGAR"]
     Filing --> Corpus["Sample filing corpus"]
-    Filing --> Retriever["Lexical vector retrieval fallback"]
+    Filing --> RAGStore["Persistent SQLite RAG Index"]
+    RAGStore --> Retriever["BM25 + local vectors + reranker"]
 
     Risk --> Matrix["Risk matrix"]
     Valuation --> Multiples["P/E, P/S, EV/EBITDA, peers"]
     Report --> Memo["Cited research memo"]
-    Critic --> Final["Final reviewed memo"]
+    Critic --> Audit["Citation and RAG fidelity audit"]
+    Audit --> Final["Final reviewed memo"]
     Final --> Export["Markdown/PDF export"]
 
     Orchestrator --> Watchlist["SQLite watchlist monitor"]
+    Durable --> Events["Run event log"]
 ```
 
 ## Tech Stack
@@ -92,7 +118,8 @@ flowchart TD
 | Data Models | Pydantic |
 | Agents | Custom multi-agent orchestrator |
 | Market Data | yfinance when available, deterministic demo fallback |
-| Filing RAG | SEC/EDGAR best-effort adapter, sample filing corpus, lexical vector retrieval |
+| Filing RAG | SEC/EDGAR best-effort adapter, sample filing corpus, persistent hybrid retrieval |
+| Agent Reliability | Durable run IDs, persisted agent events, retries, checkpoints |
 | News | Optional provider through environment variable, deterministic demo fallback |
 | Storage | SQLite |
 | Export | Markdown, PDF |
@@ -114,16 +141,20 @@ capital-lens-ai/
       valuation.py
       report.py
       critic.py
+      durable.py
     tools/
       finance_tools.py
       news_tools.py
       rag_tools.py
       sec_tools.py
       export_tools.py
+      advanced_rag.py
+      citation_audit.py
     schemas/
       models.py
     storage/
       database.py
+      rag_store.py
     api/
       routes.py
   frontend/
@@ -176,6 +207,9 @@ OPENAI_MODEL=gpt-4.1-mini
 NEWS_API_KEY=
 SEC_USER_AGENT=CapitalLensAI/1.0 contact@example.com
 CAPITALLENS_DB_PATH=capital_lens_watchlist.db
+CAPITALLENS_RAG_INDEX_PATH=data/rag_index.sqlite
+CAPITALLENS_RAG_DIMS=384
+CAPITALLENS_AGENT_MAX_RETRIES=2
 ```
 
 `OPENAI_API_KEY` and `NEWS_API_KEY` are optional. When they are missing, CapitalLens AI uses deterministic demo responses and sample company data.
@@ -224,6 +258,12 @@ curl -X POST http://127.0.0.1:8000/watchlist/scan
 curl http://127.0.0.1:8000/watchlist/alerts
 ```
 
+Inspect a durable agent run:
+
+```bash
+curl http://127.0.0.1:8000/runs/<run_id>/events
+```
+
 ## Testing
 
 ```bash
@@ -233,7 +273,7 @@ pytest
 Current verification:
 
 ```text
-6 passed
+9 passed
 ```
 
 The tests run in demo mode and do not require network access or API keys.
@@ -268,7 +308,7 @@ The conclusion avoids direct trading instructions and uses research-oriented lan
 
 ## Future Improvements
 
-- Add persistent ChromaDB collections and embedding refresh jobs.
+- Add optional ChromaDB/OpenSearch backends behind the current RAG interface.
 - Expand SEC ingestion to full 10-K, 10-Q, exhibits, and XBRL pipelines.
 - Add richer peer auto-discovery by sector, geography, and market cap.
 - Add DCF and scenario-analysis modules.
@@ -294,4 +334,3 @@ GitHub: [github.com/Sai-Vivek17](https://github.com/Sai-Vivek17)
 ## Disclaimer
 
 CapitalLens AI is for research and educational purposes only. It may contain errors, stale data, simplified assumptions, or incomplete source coverage. It does not provide personalized investment, legal, accounting, tax, or trading advice.
-

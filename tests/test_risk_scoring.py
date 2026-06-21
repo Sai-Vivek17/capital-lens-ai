@@ -7,8 +7,8 @@ from app.config import Settings
 from app.tools.finance_tools import fetch_market_data
 
 
-def test_risk_scoring_detects_tesla_watch_items() -> None:
-    settings = Settings(demo_mode=True)
+def test_risk_scoring_detects_tesla_watch_items(tmp_path) -> None:
+    settings = Settings(demo_mode=True, rag_index_path=tmp_path / "rag_index.db")
     market = fetch_market_data("TSLA", settings)
     news = NewsAgent(settings).run("TSLA")
     filing = FilingRAGAgent().run("TSLA")
@@ -20,8 +20,8 @@ def test_risk_scoring_detects_tesla_watch_items() -> None:
     assert matrix.summary
 
 
-def test_lower_risk_company_scores_below_high_risk_threshold() -> None:
-    settings = Settings(demo_mode=True)
+def test_lower_risk_company_scores_below_high_risk_threshold(tmp_path) -> None:
+    settings = Settings(demo_mode=True, rag_index_path=tmp_path / "rag_index.db")
     market = fetch_market_data("MSFT", settings)
     news = NewsAgent(settings).run("MSFT")
     filing = FilingRAGAgent().run("MSFT")
@@ -29,4 +29,3 @@ def test_lower_risk_company_scores_below_high_risk_threshold() -> None:
 
     assert 0 <= matrix.risk_score <= 100
     assert matrix.risk_score < 75
-

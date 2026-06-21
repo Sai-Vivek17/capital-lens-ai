@@ -57,6 +57,33 @@ def init_db(db_path: Path | None = None) -> None:
             )
             """
         )
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS agent_runs (
+                run_id TEXT PRIMARY KEY,
+                query TEXT NOT NULL,
+                mode TEXT NOT NULL,
+                status TEXT NOT NULL,
+                started_at TEXT NOT NULL,
+                completed_at TEXT,
+                error TEXT
+            )
+            """
+        )
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS agent_events (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                run_id TEXT NOT NULL,
+                agent_name TEXT NOT NULL,
+                attempt INTEGER NOT NULL,
+                status TEXT NOT NULL,
+                detail TEXT NOT NULL,
+                error TEXT,
+                created_at TEXT NOT NULL
+            )
+            """
+        )
 
 
 def add_watchlist_ticker(query: str, db_path: Path | None = None) -> WatchlistItem:
@@ -149,3 +176,63 @@ def list_recent_alerts(limit: int = 25, db_path: Path | None = None) -> list[Wat
         )
         for row in rows
     ]
+
+
+def create_agent_run(run_id: str, query: str, mode: str, db_path: Path | None = None) -> None:
+    init_db(db_path)
+    with get_connection(db_path) as conn:
+        conn.execute(
+            """
+            INSERT OR REPLACE INTO agent_runs (run_id, query, mode, status, started_at, completed_at, error)
+            VALUES (?, ?, ?, ?, ?, NULL, NULL)
+            """,
+            (run_id, query, mode, "running", datetime.now(UTC).isoformat()),
+        )
+
+
+def record_agent_event(
+    run_id: str,
+    agent_name: str,
+    attempt: int,
+    status: str,
+    detail: str,
+    error: str | None = None,
+    db_path: Path | None = None,
+) -> None:
+    init_db(db_path)
+    with get_connection(db_path) as conn:
+        conn.execute(
+            """
+            INSERT INTO agent_events (run_id, agent_name, attempt, status, detail, error, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """,
+            (run_id, agent_name, attempt, status, detail, error, datetime.now(UTC).isoformat()),
+        )
+
+
+def complete_agent_run(run_id: str, status: str, error: str | None = None, db_path: Path | None = None) -> None:
+    init_db(db_path)
+    with get_connection(db_path) as conn:
+        conn.execute(
+            """
+            UPDATE agent_runs
+            SET status = ?, completed_at = ?, error = ?
+            WHERE run_id = ?
+            """,
+            (status, datetime.now(UTC).isoformat(), error, run_id),
+        )
+
+
+def get_agent_events(run_id: str, db_path: Path | None = None) -> list[dict[str, Any]]:
+    init_db(db_path)
+    with get_connection(db_path) as conn:
+        rows = conn.execute(
+            """
+            SELECT run_id, agent_name, attempt, status, detail, error, created_at
+            FROM agent_events
+            WHERE run_id = ?
+            ORDER BY id ASC
+            """,
+            (run_id,),
+        ).fetchall()
+    return [dict(row) for row in rows]

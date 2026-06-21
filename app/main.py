@@ -7,6 +7,7 @@ from dataclasses import replace
 from typing import Callable
 
 from app.agents.critic import CriticAgent
+from app.agents.durable import DurableAgentExecutor, RetryPolicy
 from app.agents.filing_rag import FilingRAGAgent
 from app.agents.market_data import MarketDataAgent
 from app.agents.news import NewsAgent
@@ -40,42 +41,61 @@ class CapitalLensOrchestrator:
         self.critic_agent = CriticAgent()
 
     def run_research(self, request: ResearchRequest, progress_callback: ProgressCallback | None = None) -> ResearchResult:
-        settings = self.settings
         if request.demo_mode is not None and request.demo_mode != self.settings.demo_mode:
-            settings = replace(self.settings, demo_mode=request.demo_mode)
-            self.__init__(settings=settings)
+            self.__init__(settings=replace(self.settings, demo_mode=request.demo_mode))
 
         steps: list[AgentStep] = []
+        executor = DurableAgentExecutor(
+            request=request,
+            db_path=self.settings.database_path,
+            steps=steps,
+            progress_callback=progress_callback,
+            retry_policy=RetryPolicy(max_attempts=max(1, self.settings.agent_max_retries + 1)),
+        )
 
-        def emit(name: str, status: str, detail: str) -> None:
-            step = AgentStep(name=name, status=status, detail=detail)  # type: ignore[arg-type]
-            steps.append(step)
-            if progress_callback:
-                progress_callback(step)
+        plan = executor.execute(
+            "PlannerAgent",
+            "Creating autonomous research plan.",
+            lambda: self.planner.run(request),
+            lambda result: f"Created {len(result.tasks)} task plan for {request.mode}.",
+        )
 
-        emit("PlannerAgent", "running", "Creating autonomous research plan.")
-        plan = self.planner.run(request)
-        emit("PlannerAgent", "complete", f"Created {len(plan.tasks)} task plan for {request.mode}.")
+        market = executor.execute(
+            "MarketDataAgent",
+            "Resolving ticker and collecting market data.",
+            lambda: self.market_agent.run(request.query),
+            lambda result: f"Loaded {result.company_name} market snapshot from {result.source}.",
+        )
 
-        emit("MarketDataAgent", "running", "Resolving ticker and collecting market data.")
-        market = self.market_agent.run(request.query)
-        emit("MarketDataAgent", "complete", f"Loaded {market.company_name} market snapshot from {market.source}.")
+        news = executor.execute(
+            "NewsAgent",
+            "Scanning recent business events.",
+            lambda: self.news_agent.run(market.ticker),
+            lambda result: f"Classified {len(result.items)} recent developments as {result.overall_tone}.",
+        )
 
-        emit("NewsAgent", "running", "Scanning recent business events.")
-        news = self.news_agent.run(market.ticker)
-        emit("NewsAgent", "complete", f"Classified {len(news.items)} recent developments as {news.overall_tone}.")
+        filing = executor.execute(
+            "FilingRAGAgent",
+            "Retrieving cited evidence with hybrid RAG.",
+            lambda: self.rag_agent.run(market.ticker, request.mode),
+            lambda result: (
+                f"Retrieved {len(result.evidence)} evidence chunks via {result.diagnostics.retrieval_strategy if result.diagnostics else result.source_status}."
+            ),
+        )
 
-        emit("FilingRAGAgent", "running", "Retrieving cited evidence from filing corpus.")
-        filing = self.rag_agent.run(market.ticker, request.mode)
-        emit("FilingRAGAgent", "complete", f"Retrieved {len(filing.evidence)} evidence chunks for memo grounding.")
+        risks = executor.execute(
+            "RiskAgent",
+            "Scoring financial, business, market, and event risks.",
+            lambda: self.risk_agent.run(market, news, filing),
+            lambda result: f"Built risk matrix with aggregate score {result.risk_score}/100.",
+        )
 
-        emit("RiskAgent", "running", "Scoring financial, business, market, and event risks.")
-        risks = self.risk_agent.run(market, news, filing)
-        emit("RiskAgent", "complete", f"Built risk matrix with aggregate score {risks.risk_score}/100.")
-
-        emit("ValuationAgent", "running", "Computing valuation multiples and peer context.")
-        valuation = self.valuation_agent.run(market)
-        emit("ValuationAgent", "complete", "Prepared valuation snapshot and peer comparison.")
+        valuation = executor.execute(
+            "ValuationAgent",
+            "Computing valuation multiples and peer context.",
+            lambda: self.valuation_agent.run(market),
+            lambda _: "Prepared valuation snapshot and peer comparison.",
+        )
 
         scores = compute_scores(market, news, risks.risk_score)
         bundle = ResearchBundle(
@@ -89,15 +109,22 @@ class CapitalLensOrchestrator:
             scores=scores,
         )
 
-        emit("ReportAgent", "running", "Generating analyst-style memo with citations.")
-        report = self.report_agent.run(bundle)
-        emit("ReportAgent", "complete", "Draft memo generated.")
+        report = executor.execute(
+            "ReportAgent",
+            "Generating analyst-style memo with citations.",
+            lambda: self.report_agent.run(bundle),
+            lambda _: "Draft memo generated.",
+        )
 
-        emit("CriticAgent", "running", "Reviewing memo for unsupported claims and safety language.")
-        report = self.critic_agent.run(report, bundle)
-        emit("CriticAgent", "complete", "Final memo passed deterministic critic review.")
+        report = executor.execute(
+            "CriticAgent",
+            "Reviewing memo for unsupported claims, citation gaps, and safety language.",
+            lambda: self.critic_agent.run(report, bundle),
+            lambda _: "Final memo passed deterministic critic review.",
+        )
+        executor.complete()
 
-        return ResearchResult(bundle=bundle, report=report, steps=steps)
+        return ResearchResult(bundle=bundle, report=report, steps=steps, run_id=executor.run_id)
 
     def scan_watchlist(self, progress_callback: ProgressCallback | None = None) -> list[WatchlistScanResult]:
         init_db(self.settings.database_path)

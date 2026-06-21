@@ -124,6 +124,33 @@ class FilingEvidence(BaseModel):
     claim: str
     citation: Citation
     relevance_score: float = 0.0
+    retrieval_scores: dict[str, float] = Field(default_factory=dict)
+
+
+class RetrievalHit(BaseModel):
+    chunk_id: str
+    document_id: str
+    text: str
+    source: str
+    title: str
+    url: str | None = None
+    date: str | None = None
+    metadata: dict[str, Any] = Field(default_factory=dict)
+    lexical_score: float = 0.0
+    vector_score: float = 0.0
+    rerank_score: float = 0.0
+    final_score: float = 0.0
+
+
+class RAGDiagnostics(BaseModel):
+    retrieval_strategy: str
+    indexed_documents: int = 0
+    indexed_chunks: int = 0
+    queries: list[str] = Field(default_factory=list)
+    average_top_score: float = 0.0
+    coverage: Confidence = "Medium"
+    citation_coverage: float = 0.0
+    unsupported_claims: list[str] = Field(default_factory=list)
 
 
 class FilingRAGResult(BaseModel):
@@ -131,6 +158,7 @@ class FilingRAGResult(BaseModel):
     evidence: list[FilingEvidence]
     citations: list[Citation] = Field(default_factory=list)
     source_status: str = "demo filings"
+    diagnostics: RAGDiagnostics | None = None
 
 
 class RiskItem(BaseModel):
@@ -203,6 +231,7 @@ class ResearchResult(BaseModel):
     bundle: ResearchBundle
     report: ReportOutput
     steps: list[AgentStep]
+    run_id: str | None = None
 
 
 class WatchlistItem(BaseModel):

@@ -6,7 +6,7 @@ from fastapi import APIRouter, HTTPException
 
 from app.main import CapitalLensOrchestrator
 from app.schemas.models import ResearchRequest, ResearchResult, WatchlistItem, WatchlistScanResult
-from app.storage.database import add_watchlist_ticker, list_recent_alerts, list_watchlist, remove_watchlist_ticker
+from app.storage.database import add_watchlist_ticker, get_agent_events, list_recent_alerts, list_watchlist, remove_watchlist_ticker
 from app.tools.finance_tools import TickerValidationError
 
 router = APIRouter()
@@ -35,6 +35,11 @@ def scan_watchlist() -> list[WatchlistScanResult]:
 @router.get("/watchlist/alerts")
 def alerts():
     return list_recent_alerts()
+
+
+@router.get("/runs/{run_id}/events")
+def run_events(run_id: str):
+    return get_agent_events(run_id)
 
 
 @router.post("/watchlist/{ticker}", response_model=WatchlistItem)

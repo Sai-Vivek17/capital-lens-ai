@@ -244,6 +244,17 @@ def research_page() -> None:
         plan_df = pd.DataFrame([{"Agent": task.agent, "Objective": task.objective, "Tools": ", ".join(task.tools)} for task in bundle.plan.tasks])
         st.dataframe(plan_df, use_container_width=True, hide_index=True)
 
+    if bundle.filing_rag.diagnostics:
+        diagnostics = bundle.filing_rag.diagnostics
+        with st.expander("RAG Source Integrity", expanded=False):
+            st.write(f"**Retrieval strategy:** `{diagnostics.retrieval_strategy}`")
+            cols = st.columns(3)
+            cols[0].metric("Indexed Chunks", diagnostics.indexed_chunks)
+            cols[1].metric("Citation Coverage", f"{diagnostics.citation_coverage * 100:.0f}%")
+            cols[2].metric("Evidence Coverage", diagnostics.coverage)
+            if diagnostics.unsupported_claims:
+                st.warning("Unsupported topics: " + ", ".join(diagnostics.unsupported_claims))
+
     tab_overview, tab_financials, tab_news, tab_risks, tab_valuation, tab_memo = st.tabs(
         ["Overview", "Financials", "News", "Risks", "Valuation", "Final Memo"]
     )
@@ -411,4 +422,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

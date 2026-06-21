@@ -61,6 +61,7 @@ class ReportAgent:
             for risk in risks.risks
         )
         source_lines = "\n".join(f"- [{citation.id}] {citation.title} - {citation.source}" + (f" ({citation.url})" if citation.url else "") for citation in self._collect_citations(bundle))
+        rag_note = self._rag_note(bundle)
 
         bull_case = self._bull_case(bundle, market_cite, filing_cite)
         bear_case = self._bear_case(bundle, market_cite)
@@ -80,6 +81,8 @@ CapitalLens scores this research set as **Financial Health {scores.financial_hea
 
 ## 2. Business Overview
 {market.description} Filing evidence indicates that business quality depends on revenue durability, competitive position, execution discipline, and regulatory context. [{filing_cite}]
+
+{rag_note}
 
 ## 3. Recent Developments
 {recent_developments}
@@ -152,6 +155,18 @@ CapitalLens AI is for research and educational purposes only. It may contain err
         if scores.financial_health < 50:
             return "the company needs further review because financial quality indicators are mixed or weak."
         return "the company presents a balanced research profile with identifiable strengths and watch items."
+
+    @staticmethod
+    def _rag_note(bundle: ResearchBundle) -> str:
+        diagnostics = bundle.filing_rag.diagnostics
+        if diagnostics is None:
+            return "**RAG Source Integrity:** Retrieval diagnostics were unavailable for this run."
+        return (
+            "**RAG Source Integrity:** "
+            f"Strategy `{diagnostics.retrieval_strategy}` indexed {diagnostics.indexed_documents} document(s) "
+            f"and {diagnostics.indexed_chunks} chunk(s). Citation coverage is "
+            f"{diagnostics.citation_coverage * 100:.0f}% with {diagnostics.coverage} evidence coverage."
+        )
 
     def _optional_llm_polish(self, markdown: str) -> str:
         if self.settings.demo_mode or not self.settings.openai_api_key:

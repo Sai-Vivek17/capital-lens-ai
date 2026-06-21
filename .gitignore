@@ -8,8 +8,9 @@ venv/
 .env
 *.db
 *.sqlite
+data/*.sqlite
+data/*.db
 reports/*.log
 reports/*.md
 reports/*.pdf
 reports/*.db
-
