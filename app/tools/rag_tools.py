@@ -104,6 +104,7 @@ def build_index_for_ticker(ticker: str) -> SimpleVectorIndex:
 def retrieve_filing_evidence(ticker: str, topics: list[str], top_k_per_topic: int = 1) -> list[FilingEvidence]:
     company = get_demo_company(ticker)
     index = build_index_for_ticker(company["ticker"])
+    filing_path = filing_path_for_ticker(company["ticker"])
     return _retrieve_from_index(
         ticker=company["ticker"],
         company_name=company["company_name"],
@@ -111,7 +112,7 @@ def retrieve_filing_evidence(ticker: str, topics: list[str], top_k_per_topic: in
         topics=topics,
         top_k_per_topic=top_k_per_topic,
         source_title=f"{company['company_name']} filing excerpt",
-        source_url=None,
+        source_url=f"data/sample_filings/{filing_path.name}",
         source_date="2026-06-14",
     )
 
@@ -160,7 +161,7 @@ def _retrieve_from_index(
                 id=f"filing-{chunk.id}",
                 source="SEC EDGAR" if source_url and source_url.startswith("https://www.sec.gov") else "CapitalLens Sample Filing Corpus",
                 title=source_title,
-                url=source_url or str(chunk.source_path),
+                url=source_url or f"data/sample_filings/{chunk.source_path.name}",
                 date=source_date,
                 snippet=chunk.text[:350],
             )

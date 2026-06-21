@@ -196,6 +196,15 @@ streamlit run frontend/streamlit_app.py
 
 The app works immediately in demo mode, even without API keys.
 
+## Submission Assets
+
+- Deployment guide: [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md)
+- Two-minute demo script: [`docs/DEMO_SCRIPT.md`](docs/DEMO_SCRIPT.md)
+- 20-slide case study outline: [`docs/HACKATHON_CASE_STUDY_20_SLIDES.md`](docs/HACKATHON_CASE_STUDY_20_SLIDES.md)
+- Submission audit checklist: [`docs/SUBMISSION_AUDIT.md`](docs/SUBMISSION_AUDIT.md)
+- Sample generated memo: [`docs/sample_reports/aapl_research_memo.md`](docs/sample_reports/aapl_research_memo.md)
+- Docker Compose: [`docker-compose.yml`](docker-compose.yml)
+
 ## Environment Variables
 
 Create a local `.env` file or set these variables in your shell:

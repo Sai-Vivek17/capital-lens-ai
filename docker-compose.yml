@@ -1,0 +1,32 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    environment:
+      DEMO_MODE: "true"
+      CAPITALLENS_DB_PATH: /app/data/runtime/capital_lens_watchlist.db
+      CAPITALLENS_RAG_INDEX_PATH: /app/data/runtime/rag_index.sqlite
+    ports:
+      - "8000:8000"
+    volumes:
+      - capitallens-runtime:/app/data/runtime
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    environment:
+      DEMO_MODE: "true"
+      CAPITALLENS_DB_PATH: /app/data/runtime/capital_lens_watchlist.db
+      CAPITALLENS_RAG_INDEX_PATH: /app/data/runtime/rag_index.sqlite
+    ports:
+      - "8501:8501"
+    volumes:
+      - capitallens-runtime:/app/data/runtime
+    depends_on:
+      - backend
+
+volumes:
+  capitallens-runtime:
+

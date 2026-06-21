@@ -74,7 +74,7 @@ class FilingRAGAgent:
             source="CapitalLens Sample Filing Corpus",
             title=f"{company['company_name']} filing excerpt",
             text=filing_text,
-            url=str(filing_path),
+            url=f"data/sample_filings/{filing_path.name}",
             date="2026-06-14",
             metadata={"company_name": company["company_name"], "source_status": "demo filings"},
         )
