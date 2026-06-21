@@ -47,7 +47,7 @@ The final output includes:
 
 - **Autonomous research planning:** PlannerAgent creates a task plan for each run.
 - **Durable multi-agent architecture:** Dedicated agents for market data, news, filing RAG, risk, valuation, reporting, and critique, executed through a retry-aware run engine.
-- **Advanced local RAG:** Persistent SQLite chunk index, deterministic local embeddings, BM25-style lexical scoring, vector similarity, reranking, and retrieval diagnostics.
+- **Hybrid local RAG:** Persistent SQLite chunk index, deterministic local embeddings, BM25-style lexical scoring, vector similarity, reranking, and retrieval diagnostics.
 - **RAG with citations:** FilingRAGAgent retrieves evidence from sample filings and best-effort SEC/EDGAR filings for supported US companies.
 - **Source fidelity checks:** Citation coverage, unsupported-topic detection, retrieval scores, and critic notes are surfaced in the memo and UI.
 - **Demo mode:** Works without API keys using deterministic sample data for Apple, Microsoft, Tesla, Reliance Industries, and TCS.
@@ -61,7 +61,7 @@ The final output includes:
 
 ## Phase 2 Production Hardening
 
-This version includes a Phase 2 hardening layer focused on agent reliability and advanced RAG behavior:
+This version includes a Phase 2 hardening layer focused on agent reliability and local hybrid RAG fidelity:
 
 - **Durable agent runs:** Every research run gets a `run_id`, persisted agent events, status transitions, and retry attempts.
 - **Retry-safe execution:** Agent steps run through `DurableAgentExecutor`, with configurable retry count via `CAPITALLENS_AGENT_MAX_RETRIES`.
@@ -70,6 +70,12 @@ This version includes a Phase 2 hardening layer focused on agent reliability and
 - **Retrieval diagnostics:** Each run reports indexed documents, indexed chunks, citation coverage, average top score, and evidence coverage.
 - **Citation audit:** The critic checks missing citations, weak retrieval coverage, and unsupported retrieval topics before finalizing the memo.
 - **Observable API:** Run events can be inspected through `GET /runs/{run_id}/events`.
+
+## RAG Scope and Claim Boundary
+
+CapitalLens AI implements an offline-first, reproducible RAG layer rather than claiming a fully managed enterprise retrieval stack. The current system includes local persistence, chunk metadata, deterministic embeddings, lexical-vector hybrid scoring, reranking, citation diagnostics, and critic-level citation audits. This is intentionally demo-safe and API-key-free for judging.
+
+The roadmap items for ChromaDB/OpenSearch, managed vector databases, embedding refresh jobs, source freshness scoring, and larger retrieval benchmarks are future production upgrades. They are not required for the current demo mode and are not represented as already-complete managed RAG infrastructure.
 
 ## Agent Architecture
 
@@ -296,6 +302,21 @@ Current verification:
 
 The tests run in demo mode and do not require network access or API keys.
 
+## Evaluation and Evidence Snapshot
+
+The project includes automated checks that exercise the agent workflow, retrieval behavior, financial fallback data, watchlist storage, and safety controls. Current local verification is `9 passed`.
+
+| Capability | Evidence in repo | Current verification |
+| --- | --- | --- |
+| Hybrid RAG retrieval | `tests/test_advanced_rag.py` | Deterministic embeddings are stable; controlled filing text retrieves two cited evidence chunks; citation coverage reaches `1.0`; final retrieval scores are positive. |
+| Citation-grounded memo generation | `tests/test_agents.py` | Demo AAPL report includes `RAG Source Integrity`, `Sources & Citations`, citations, diagnostics, and a disclaimer. |
+| Durable agent execution | `tests/test_agents.py` | Research runs persist at least 10 agent events, begin with `PlannerAgent`, and complete `CriticAgent`. |
+| Finance data fallback | `tests/test_finance_tools.py` | Ticker aliases resolve, invalid tickers are rejected, and demo financial metrics include revenue, P/E, price history, and citations. |
+| Risk scoring behavior | `tests/test_risk_scoring.py` | Tesla-style watch items trigger higher-risk signals; Microsoft-style demo data remains below the high-risk threshold. |
+| Finance safety | `tests/test_agents.py` | Generated memos include educational disclaimers and avoid personalized trading recommendations. |
+
+Known evaluation limits: this repository does not yet include a large human-labeled retrieval benchmark, production latency benchmark, formal faithfulness leaderboard, or scheduled embedding-refresh evaluation. Those are listed as production roadmap items so the current claims stay precise and audit-friendly.
+
 ## Report Template
 
 Generated memos follow a consistent analyst-style structure:
@@ -327,11 +348,12 @@ The conclusion avoids direct trading instructions and uses research-oriented lan
 ## Future Improvements
 
 - Add optional ChromaDB/OpenSearch backends behind the current RAG interface.
+- Add a formal RAG evaluation set with retrieval precision, citation precision, faithfulness checks, and latency benchmarks.
+- Add embedding refresh jobs, source freshness scoring, and metadata-filtered retrieval for production corpora.
 - Expand SEC ingestion to full 10-K, 10-Q, exhibits, and XBRL pipelines.
 - Add richer peer auto-discovery by sector, geography, and market cap.
 - Add DCF and scenario-analysis modules.
 - Add scheduled watchlist runs with email or Slack alerts.
-- Add source freshness scoring by field.
 - Add authentication and team workspaces.
 
 ## Resume Highlights
