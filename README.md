@@ -18,6 +18,14 @@ CapitalLens AI is a polished AI agent product that converts a company name or st
 
 <img src="docs/images/capitallens-ai-demo.png" alt="CapitalLens AI working Streamlit app showing generated Apple research memo, score cards, and final memo tab" width="100%">
 
+## Live Demo Status
+
+- Streamlit Cloud target: [`https://capital-lens-ai.streamlit.app/`](https://capital-lens-ai.streamlit.app/)
+- Status: deployment-ready, but public access still needs to be enabled from the Streamlit Cloud account before this should be submitted as the final live demo link.
+- Local judging command: `streamlit run frontend/streamlit_app.py`
+
+The target URL was checked on June 21, 2026 and redirected to Streamlit authentication, so the repository is ready for deployment but the app is not yet publicly accessible without account-side action.
+
 ## What It Does
 
 CapitalLens AI helps analysts, students, founders, and finance teams research public companies quickly. A user enters a ticker such as `AAPL`, `MSFT`, `TSLA`, `RELIANCE.NS`, `TCS.NS`, or a company name like `Tesla`, chooses a research depth, and the agent produces a structured memo with cited sources.
@@ -201,6 +209,8 @@ The app works immediately in demo mode, even without API keys.
 - Deployment guide: [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md)
 - Two-minute demo script: [`docs/DEMO_SCRIPT.md`](docs/DEMO_SCRIPT.md)
 - 20-slide case study outline: [`docs/HACKATHON_CASE_STUDY_20_SLIDES.md`](docs/HACKATHON_CASE_STUDY_20_SLIDES.md)
+- Case study PowerPoint: [`docs/case_study/capitallens_ai_case_study.pptx`](docs/case_study/capitallens_ai_case_study.pptx)
+- Case study PDF: [`docs/case_study/capitallens_ai_case_study.pdf`](docs/case_study/capitallens_ai_case_study.pdf)
 - Submission audit checklist: [`docs/SUBMISSION_AUDIT.md`](docs/SUBMISSION_AUDIT.md)
 - Sample generated memo: [`docs/sample_reports/aapl_research_memo.md`](docs/sample_reports/aapl_research_memo.md)
 - Docker Compose: [`docker-compose.yml`](docker-compose.yml)
@@ -333,9 +343,6 @@ The conclusion avoids direct trading instructions and uses research-oriented lan
 - Created a professional dashboard with progress timeline, score cards, charts, risk matrix, valuation tab, final memo viewer, and Markdown/PDF exports.
 
 ## Author
-
-**Vedakshari**  
-GitHub: [github.com/vedakshari1-colab](https://github.com/vedakshari1-collab)
 
 **Sai-Vivek17**  
 GitHub: [github.com/Sai-Vivek17](https://github.com/Sai-Vivek17)
