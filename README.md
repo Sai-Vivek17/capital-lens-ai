@@ -341,8 +341,10 @@ The conclusion avoids direct trading instructions and uses research-oriented lan
 - Designed a watchlist monitor that detects unusual price movement, negative news, volatility, weak trends, and risk-score changes.
 - Created a professional dashboard with progress timeline, score cards, charts, risk matrix, valuation tab, final memo viewer, and Markdown/PDF exports.
 
-## Author
+## AuthorS
 
+**Vedakshari**  
+GitHub: [github.com/vedakshari1-collab](https://github.com/vedakshari1-collab)
 **Sai-Vivek17**  
 GitHub: [github.com/Sai-Vivek17](https://github.com/Sai-Vivek17)
 
