@@ -209,6 +209,7 @@ The app works immediately in demo mode, even without API keys.
 - Deployment guide: [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md)
 - Two-minute demo script: [`docs/DEMO_SCRIPT.md`](docs/DEMO_SCRIPT.md)
 - 20-slide case study outline: [`docs/HACKATHON_CASE_STUDY_20_SLIDES.md`](docs/HACKATHON_CASE_STUDY_20_SLIDES.md)
+- Competition upload PDF: [`docs/case_study/CapitalLens_AI_The_Arch_Round1_Submission.pdf`](docs/case_study/CapitalLens_AI_The_Arch_Round1_Submission.pdf)
 - Case study PowerPoint: [`docs/case_study/capitallens_ai_case_study.pptx`](docs/case_study/capitallens_ai_case_study.pptx)
 - Case study PDF: [`docs/case_study/capitallens_ai_case_study.pdf`](docs/case_study/capitallens_ai_case_study.pdf)
 - Submission audit checklist: [`docs/SUBMISSION_AUDIT.md`](docs/SUBMISSION_AUDIT.md)
