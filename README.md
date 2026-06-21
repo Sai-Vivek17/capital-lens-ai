@@ -286,7 +286,7 @@ The conclusion avoids direct trading instructions and uses research-oriented lan
 ## Author
 
 **Vedakshari**  
-GitHub: [github.com/vedakshari1-colab](https://github.com/vedakshari1-colab)
+GitHub: [github.com/vedakshari1-colab](https://github.com/vedakshari1-collab)
 
 **Sai-Vivek17**  
 GitHub: [github.com/Sai-Vivek17](https://github.com/Sai-Vivek17)
